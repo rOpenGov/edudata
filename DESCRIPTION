@@ -1,0 +1,18 @@
+Package: edudata
+Type: Package
+Title: Data package containing yaml-files for edu packages exercises
+Version: 0.1.0
+Authors@R: c(
+    person("Kainu", "Markus", , "markus.kainu@kela.fi", role = c("aut", "cre")),
+    person("ropengov", role = c("cph","fnd"))
+    )
+Maintainer: Markus Kainu <markus.kainu@gmail.com>
+Description: edu-packages provides a open framework for creating and 
+             assessing R assignments. Exercises are distributed as
+             yml-files in this edudata-package. Each block  in each
+             yml-file contains a single question in one
+             or multiple languages and the correct answer.
+License: CC-BY 4.0
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.0.1
