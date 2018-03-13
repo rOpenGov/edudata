@@ -1,0 +1,18 @@
+# Basics assignments
+- id: seven_stages
+  domain: tidyverse
+  grade: easy
+  lang_fi: "Mitkä ovat data-analyysin seitsemän vaihetta joiden ympärille Tidyverse rakentuu? Vastaa sanallisesti."
+  ans: |
+        # Tuo > Siivoa > Muokkaa > Visualisoi > Mallinna > Kommunikoi < Ohjelmoi
+- id: tidyverse_author
+  domain: tidyverse
+  lang_fi: "Minkä niminen henkilö on Tidyversen takana?"
+  lang_en: "How can you export a graph in pdf format?"
+  ans: |
+        # Hadley Wickham
+- id: open_file_to_edit
+  domain: tidyverse
+  lang_fi: "Mikä on tidy datan määritelmä? Vastaa suomeksi"
+  ans: |
+        # Muuttujat sarakkeissa, tapaukset riveillä ja eri asiat eri datoissa

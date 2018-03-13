@@ -150,29 +150,44 @@
         bind_rows(df, pakdata)
 - id: data_summary_head
   domain: basics
-  lang_fi: "Asenna ja lataa paketti `plm` komennolla `install.packages('plm'); library(plm)` saadaksesi datan Males. Miten saat konsoliin datan kuusi ensimmäistä riviä?"
+  lang_fi: "Komennolla ´starwars <- dplyr::starwars` saat objektin `starwars´. Miten saat konsoliin datan kuusi ensimmäistä riviä?"
   lang_en: "Install and load package `plm` with comman `install.packages('plm'); library(plm)` to data `Males`. How can you print the first six rows of data into console?"
   ans: |
-        Males[1:6,]
+        starwars[1:6,]
         # Or
-        head(Males,6)
+        head(starwars,6)
+        # Or
+        dplyr::slice(starwars, 1:6)
 - id: data_summary_str
   domain: basics
-  lang_fi: "Asenna ja lataa paketti `plm` komennolla `install.packages('plm'); library(plm)` saadaksesi datan Males. Miten saat konsoliin datan muuttujien luokat?"
+  lang_fi: "Komennolla ´starwars <- dplyr::starwars` saat objektin `starwars´. Miten saat konsoliin datan muuttujien luokat?"
   lang_en: "Install and load package `plm` with comman `install.packages('plm'); library(plm)` to data `Males`. How can you print the classes of each variable into console?"
-  ans: str(Males)
+  ans: |
+        str(starwars)
+        # Or
+        dplyr::glimpse(starwars)
 - id: data_summary_stats_varmean
   domain: basics
-  lang_fi: "Asenna ja lataa paketti `plm` komennolla `install.packages('plm'); library(plm)` saadaksesi datan Males. Mikä on `exper` (kokemus) muuttujan keskiarvo?"
+  lang_fi: "Komennolla ´starwars <- dplyr::starwars` saat objektin `starwars´. Mikä on `height` muuttujan keskiarvo?"
   lang_en: "Install and load package `plm` with comman `install.packages('plm'); library(plm)` to data `Males`. What is the mean of `exper` variables (experience)?"
-  ans: mean(Males)
+  ans: mean(starwars$height)
 - id: data_summary_unique
   domain: basics
-  lang_fi: "Asenna ja lataa paketti `plm` komennolla `install.packages('plm'); library(plm)` saadaksesi datan Males. Montako uniikkia ammattia (muuttuja `occupation`) aineistossa on?"
+  lang_fi: "Komennolla ´starwars <- dplyr::starwars` saat objektin `starwars´. Montako uniikkia lajia (muuttuja `species`) aineistossa on?"
   lang_en: "Install and load package `plm` with comman `install.packages('plm'); library(plm)` to data `Males`. How many unique occupations (variable `occupation`) there is in the data?"
-  ans: length(unique(Males$occupation))
+  ans: |
+        length(unique(starwars$species))
+        # Or
+        dplyr::count(starwars, species)
 - id: data_summary_share
   domain: basics
-  lang_fi: "Asenna ja lataa paketti `plm` komennolla `install.packages('plm'); library(plm)` saadaksesi datan Males. Mikä osuus datan tapauksista on naimisissa (muuttuja `married`)?"
+  lang_fi: "Komennolla ´starwars <- dplyr::starwars` saat objektin `starwars´. Mikä osuus datan otuksista on vihreitä iholtaan (muuttuja `skin_color`)?"
   lang_en: "Install and load package `plm` with comman `install.packages('plm'); library(plm)` to data `Males`. What is the share of married in the data (variable `married`)?"
-  ans: prop.table(table(Males$married))[["yes"]]
+  ans: |
+        prop.table(table(starwars$skin_color))[["green"]]
+        # Or
+        starwars %>%
+              count(skin_color) %>%
+              mutate(share = n/sum(n)) %>%
+              filter(skin_color == "green") %>%
+              pull(share)

@@ -1,0 +1,19 @@
+# Basics assignments
+- id: theme_and_font
+  domain: rstudio
+  grade: easy
+  lang_fi: "Mistä valikosta voit vaihtaa Rstudion teemaa ja fonttia? Vastaa sanallisesti."
+  lang_en: "From which menu can you adjust the theme and font fo RStudio"
+  ans: |
+        # Tools > Global Options > Appearance
+- id: export_image_to_pdf
+  domain: rstudio
+  lang_fi: "Miten voit viedä kuvan pdf-muotoon?  Vastaa sanallisesti."
+  lang_en: "How can you export a graph in pdf format?"
+  ans: |
+        # Piirrä kuva, klikkaa Plots paneelissa Export ja sitten save as pdf ja valitse koko ja sijtain
+- id: open_file_to_edit
+  domain: rstudio
+  lang_fi: "Millä komennolla voit avata projektisi hakemistossa olevan tiedoston 'analyysi.R' auki RStudioon? "
+  lang_en: "Command to open a file 'analyysi.R' in your project directory into RStudio?"
+  ans: file.edit("./analyysi.R")
