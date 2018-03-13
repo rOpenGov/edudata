@@ -11,7 +11,7 @@
   lang_en: "How can you export a graph in pdf format?"
   ans: |
         # Hadley Wickham
-- id: open_file_to_edit
+- id: tidy_data_definition
   domain: tidyverse
   lang_fi: "Mikä on tidy datan määritelmä? Vastaa suomeksi"
   ans: |
