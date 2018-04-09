@@ -156,7 +156,7 @@
   domain: visualise
   grade: easy
   lang_en: ""
-  lang_fi: "`dplyr`-paketti sisältää datan `starwars`. Tee hajontakuvio (scatterplot), jossa hahmon pituus on x-akselilla, paino y-akselilla ja pisteen väri on hahmon sukupuoli. Piilota värin selite ie. legend."
+  lang_fi: "`dplyr`-paketti sisältää datan `starwars`. Tee hajontakuvio (scatterplot), jossa hahmon pituus on x-akselilla, paino y-akselilla ja pisteen väri on hahmon sukupuoli. Piilota värin selite eli 'legend'."
   ans: ggplot(dplyr::starwars, aes(x=height,y=mass,label=name)) + geom_point() + labs(title = "Starwars-hahmot") + theme(axis.text.x = element_text(angle = 45))
 - id: ggplot2_ggrepel1
   domain: visualise
