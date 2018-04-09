@@ -1,10 +1,184 @@
 - id: ggplot2_geomscatter
-  domain: model
-  lang_en: "`dplyr`-package contains data `storms`. Each storms has data on multiple rows from multiple measurement points. Create a scatterplot with air pressure on x-axis and wind speed on y-axis."
-  lang_fi: "`dplyr`-paketti sisältää datan `storms`. Kullekin myrskylle on datassa useita rivejä useasta mittausajankohdasta. Tee hajontakuvio, jossa ilmanpainen on x-akselilla ja tuulennopeus y-akselilla"
-  ans: ggplot(storms, aes(x=pressure,y=wind)) + geom_point()
+  domain: visualise
+  grade: easy
+  lang_en: ""
+  lang_fi: "`dplyr`-paketti sisältää datan `starwars`. Tee hajontakuvio (scatterplot), jossa hahmon pituus on x-akselilla ja paino y-akselilla"
+  ans: ggplot(dplyr::starwars, aes(x=height,y=mass)) + geom_point()
 - id: ggplot2_geomscatter_color
   domain: visualise
-  lang_en: "`dplyr`-package contains data `storms`. Each storms has data on multiple rows from multiple measurement points. Create a scatterplot with air pressure on x-axis and wind speed on y-axis. Color the dots by the storm name"
-  lang_fi: "`dplyr`-paketti sisältää datan `storms`. Kullekin myrskylle on datassa useita rivejä useasta mittausajankohdasta. Tee hajontakuvio, jossa ilmanpainen on x-akselilla ja tuulennopeus y-akselilla. Anna pisteille värin myrskyn nimen mukaan."
-  ans: ggplot(storms, aes(x=pressure,y=wind, color = name)) + geom_point()
+  grade: easy
+  lang_en: ""
+  lang_fi: "`dplyr`-paketti sisältää datan `starwars`. Tee hajontakuvio (scatterplot), jossa hahmon pituus on x-akselilla, paino y-akselilla ja pisteen väri on hahmon laji."
+  ans: ggplot(dplyr::starwars) + geom_point(aes(x=height,y=mass,color=species))
+- id: ggplot2_geom_line
+  domain: visualise
+  grade: easy
+  lang_en: ""
+  lang_fi: 'Tuo R:ään QOG-propektin OECD-datan aikasarja komennolla `dat <- rqog::read_qog(which.data = "oecd", data.type = "time-series")`. Piirrä funktiolla `geom_line()` viivakuvio, jossa x-akselilla on vuosi ja y-akselilla YK:n ihnimillisen kehityksen indeksi ja viivan väri on maan nimen mukaan.'
+  ans: |
+        dat <- rqog::read_qog(which.data = "oecd", data.type = "time-series")
+        ggplot(dat, aes(x = year, y = undp_hdi, color = cname)) + geom_line()
+- id: ggplot2_geom_col
+  domain: visualise
+  grade: easy
+  lang_en: ""
+  lang_fi: 'Tuo R:ään QOG-propektin OECD-datan aikasarja komennolla `dat <- rqog::read_qog(which.data = "oecd", data.type = "time-series")`. Valitse datasta Suomi. Piirrä funktiolla `geom_col()` tolppakuvio, jossa x-akselilla on vuosi ja y-akselilla YK:n ihnimillisen kehityksen indeksi. Anna kuviolle otsikko "Inhimillisen kehityksen indeksi Suomessa"'
+  ans: |
+        dat <- rqog::read_qog(which.data = "oecd", data.type = "time-series")
+        ggplot(dat %>% filter(cname == "Finland"), aes(x = year, y = undp_hdi)) + geom_col() + labs(title = "Inhimillisen kehityksen indeksi Suomessa")
+- id: ggplot2_geom_col_facet
+  domain: visualise
+  grade: medium
+  lang_en: ""
+  lang_fi: 'Tuo R:ään QOG-propektin basic-datan aikasarja komennolla `dat <- rqog::read_qog(which.data = "basic", data.type = "time-series")`. Valitse datasta Yhdysvallat, Kiina ja Venäjä. Piirrä funktiolla `geom_col()` tolppakuvio, jossa x-akselilla on vuosi ja y-akselilla YK:n ihnimillisen kehityksen indeksi ja eri maat paneleissa "facetoituina" (funktio `facet_wrap()`). Anna kuviolle otsikko "Inhimillisen kehityksen indeksi"'
+  ans: |
+        dat <- rqog::read_qog(which.data = "basic", data.type = "time-series")
+        kuvadata <- dat %>% filter(cname %in% c("Canada","United States","Russia"),
+                                   !is.na(undp_hdi))
+        ggplot(kuvadata, aes(x = year, y = undp_hdi)) + geom_col() + labs(title = "Inhimillisen kehityksen indeksi") + facet_wrap(~cname)
+- id: ggplot2_geom_line_qog
+  domain: visualise
+  grade: medium
+  lang_en: ""
+  lang_fi: 'Tuo R:ään QOG-propektin basic-datan aikasarja komennolla `dat <- rqog::read_qog(which.data = "basic", data.type = "time-series")`. Miten saat tehtyä tällaisen kuvan http://courses.markuskainu.fi/utur2018/harjoitukset/kuvat/ggplot2_geom_line_qog.png'
+  ans: |
+        dat <- rqog::read_qog(which.data = "basic", data.type = "time-series")
+        kuvadata <- dat %>% filter(cname %in% c("Canada","United States","Russia"),
+                                   !is.na(undp_hdi))
+        p <- ggplot(kuvadata, aes(x = year, y = undp_hdi, color = cname)) +
+          geom_point() + geom_line() +
+          labs(title = "Inhimillisen kehityksen indeksi")
+        p
+- id: ggplot2_geom_line_bkt
+  domain: visualise
+  grade: medium
+  lang_en: ""
+  lang_fi: 'Tuo R:ään QOG-propektin basic-datan aikasarja komennolla `dat <- rqog::read_qog(which.data = "basic", data.type = "time-series")`. Miten saat tehtyä tällaisen kuvan http://courses.markuskainu.fi/utur2018/harjoitukset/kuvat/ggplot2_geom_line_bkt.png'
+  ans: |
+        dat <- rqog::read_qog(which.data = "basic", data.type = "time-series")
+        p <- ggplot(dat, aes(x = year, y = gle_cgdpc, group = cname)) +
+          geom_point() + geom_line() +
+          labs(title = "bruttokansantuote kansalaista kohden")
+        p
+- id: ggplot2_geom_histogram_qog
+  domain: visualise
+  grade: medium
+  lang_en: ""
+  lang_fi: 'Tuo R:ään QOG-propektin basic-datan aikasarja komennolla `dat <- rqog::read_qog(which.data = "basic", data.type = "time-series")`. Miten saat tehtyä tällaisen kuvan http://courses.markuskainu.fi/utur2018/harjoitukset/kuvat/ggplot2_geom_histogram_qog.png'
+  ans: |
+        dat <- rqog::read_qog(which.data = "basic", data.type = "time-series")
+        kuvadata <- dat %>% filter(year == 2011) %>% select(cname,gle_cgdpc)
+        p <- ggplot(kuvadata, aes(x = gle_cgdpc)) + geom_histogram() +
+          labs(title = "Bruttokansantuote kansalaista kohden vuonna 2011 eri maissa")
+        P
+- id: ggplot2_geom_bar_ess
+  domain: visualise
+  grade: medium
+  lang_en: ""
+  lang_fi: "Lataa ess-data objektiksi `ess`. Piirrä siitä tolppakuvio tapausten määrästä joka näyttä tältä: http://courses.markuskainu.fi/utur2018/harjoitukset/kuvat/ggplot2_geom_bar_ess.png"
+  ans: |
+        dat <- haven::read_dta("./datasetit/ESS8e01.stata/ESS8e01.dta")
+        p <- ggplot(dat, aes(x = cntry)) + geom_bar() +
+          labs(title = "Otoskoko ESS-aineiston rundilla 8")
+        p
+- id: ggplot2_geom_col_geom_text_ess
+  domain: visualise
+  grade: medium
+  lang_en: ""
+  lang_fi: "Lataa ess-data objektiksi `ess`. Piirrä siitä tolppakuvio otoksen iän maittaisista keskiarvoista joka näyttä tältä: http://courses.markuskainu.fi/utur2018/harjoitukset/kuvat/ggplot2_geom_col_geom_text_ess.png"
+  ans: |
+        dat <- haven::read_dta("./datasetit/ESS8e01.stata/ESS8e01.dta")
+        kuvadata <- dat %>% group_by(cntry) %>% summarise(agea = round(mean(agea, na.rm = TRUE),1))
+        p <- ggplot(kuvadata, aes(x = cntry, y = agea, label = agea)) + geom_col() + geom_text() +
+          labs(title = "ESS kierros 8: eri maiden otosten iän keskiarvo")
+        p
+- id: ggplot2_geom_scatter_geom_text_ess
+  domain: visualise
+  grade: medium
+  lang_en: ""
+  lang_fi: "Lataa ess-data objektiksi `ess`. Piirrä siitä tolppakuvio tapausten määrästä joka näyttä tältä: http://courses.markuskainu.fi/utur2018/harjoitukset/kuvat/ggplot2_geom_scatter_geom_text_ess.png"
+  ans: |
+        dat <- haven::read_dta("./datasetit/ESS8e01.stata/ESS8e01.dta")
+        kuvadata <- dat %>% group_by(cntry) %>%
+          mutate(health = ifelse(health %in% c(7,8,9), NA, health),
+                 ppltrst = ifelse(ppltrst %in% c(77,88,99), NA, ppltrst)) %>%
+          summarise(health = mean(health, na.rm = TRUE),
+                    ppltrst = mean(ppltrst, na.rm = TRUE))
+        p <- ggplot(kuvadata, aes(x = ppltrst, y = health, label = cntry)) +
+          geom_point() + geom_text(nudge_y = .03) +
+          labs(title = "ESS kierros 8: luottamus ihmisiin ja koettu terveys",
+               subtitle = "Luottamus: mitä suurempi arvo sitä korkeampi luottamus
+        Terveys: mitä pienempi arvo sitä parempi terveys",
+               caption = "Data: European Social Survey")
+- id: visu_theme_default
+  domain: visualise
+  grade: medium
+  lang_en: ""
+  lang_fi: "Tee  `ess`. Piirrä siitä tolppakuvio tapausten määrästä joka näyttä tältä: http://courses.markuskainu.fi/utur2018/harjoitukset/kuvat/ggplot2_geom_scatter_geom_text_ess.png"
+  ans: |
+        dat <- haven::read_dta("./datasetit/ESS8e01.stata/ESS8e01.dta")
+        kuvadata <- dat %>% group_by(cntry) %>%
+          mutate(health = ifelse(health %in% c(7,8,9), NA, health),
+                 ppltrst = ifelse(ppltrst %in% c(77,88,99), NA, ppltrst)) %>%
+          summarise(health = mean(health, na.rm = TRUE),
+                    ppltrst = mean(ppltrst, na.rm = TRUE))
+        p <- ggplot(kuvadata, aes(x = ppltrst, y = health, label = cntry)) +
+          geom_point() + geom_text(nudge_y = .03) +
+          labs(title = "ESS kierros 8: luottamus ihmisiin ja koettu terveys",
+               subtitle = "Luottamus: mitä suurempi arvo sitä korkeampi luottamus
+        Terveys: mitä pienempi arvo sitä parempi terveys",
+               caption = "Data: European Social Survey")
+- id: ggplot2_theme_default
+  domain: visualise
+  grade: easy
+  lang_en: ""
+  lang_fi: "`dplyr`-paketti sisältää datan `starwars`. Tee hajontakuvio (scatterplot), jossa hahmon pituus on x-akselilla, paino y-akselilla ja pisteen väri on hahmon sukupuoli. Anna otsikoksi 'Starwars-hahmot' ja aseta teemaksi `classic` base-fonttikoolla 8"
+  ans: ggplot(dplyr::starwars) + geom_point(aes(x=height,y=mass,color=gender)) + labs(title = "Starwars-hahmot") + theme_classic(base_size = 8)
+- id: ggplot2_color
+  domain: visualise
+  grade: easy
+  lang_en: ""
+  lang_fi: "`dplyr`-paketti sisältää datan `starwars`. Tee hajontakuvio (scatterplot), jossa hahmon pituus on x-akselilla, paino y-akselilla ja pisteen väri on hahmon sukupuoli. Anna otsikoksi 'Starwars-hahmot' ja aseta teemaksi `classic` base-fonttikoolla 8. Lisäksi aseta pallon värille uusi paletti Dark1 funktiolla `scale_color_brewer()`"
+  ans: ggplot(dplyr::starwars) + geom_point(aes(x=height,y=mass,color=gender)) + labs(title = "Starwars-hahmot") + theme_classic(base_size = 8) + scale_color_brewer(palette = "Dark2")
+- id: ggplot2_font
+  domain: visualise
+  grade: easy
+  lang_en: ""
+  lang_fi: "`dplyr`-paketti sisältää datan `starwars`. Tee hajontakuvio (scatterplot), jossa hahmon pituus on x-akselilla, paino y-akselilla ja pisteen label on hahmon nimi. Anna otsikoksi 'Starwars-hahmot'. Anna kuvan teemaksi `minimal`. Tee luennolla esitetyt vaiheet, jotta saat fontit extrafont-paketin käytettäväksi, ja määritä koko kuvan basefontiksi sekä pisteen labeleiden fontiksi joku koneeltasi löytyvät erikoinen fontti. Laske lisäksi labelit pisteiden alapuolelle"
+  ans: ggplot(dplyr::starwars, aes(x=height,y=mass,label=name)) + geom_point() + labs(title = "Starwars-hahmot") + geom_text(family = "Impact", nudge_y = -70)  + theme_minimal(base_family =  "Impact")
+- id: ggplot2_theme_modify1
+  domain: visualise
+  grade: easy
+  lang_en: ""
+  lang_fi: "`dplyr`-paketti sisältää datan `starwars`. Tee hajontakuvio (scatterplot), jossa hahmon pituus on x-akselilla, paino y-akselilla. Aseta x-akselin tekstit 45-asteen kulmaan. (vinkki: theme(element.* = element_text(kulma = 45) ) )"
+  ans: ggplot(dplyr::starwars, aes(x=height,y=mass,label=name)) + geom_point() + labs(title = "Starwars-hahmot") + theme(axis.text.x = element_text(angle = 45))
+- id: ggplot2_theme_modify2
+  domain: visualise
+  grade: easy
+  lang_en: ""
+  lang_fi: "`dplyr`-paketti sisältää datan `starwars`. Tee hajontakuvio (scatterplot), jossa hahmon pituus on x-akselilla, paino y-akselilla ja pisteen väri on hahmon sukupuoli. Piilota värin selite ie. legend."
+  ans: ggplot(dplyr::starwars, aes(x=height,y=mass,label=name)) + geom_point() + labs(title = "Starwars-hahmot") + theme(axis.text.x = element_text(angle = 45))
+- id: ggplot2_ggrepel1
+  domain: visualise
+  grade: easy
+  lang_en: ""
+  lang_fi: "`dplyr`-paketti sisältää datan `starwars`. Tee hajontakuvio (scatterplot), jossa hahmon pituus on x-akselilla, paino y-akselilla ja pisteen label on hahmon nimi. käytä funktiota `ggrepel::geom_label_repel()`-pisteiden nimeämiseen"
+  ans: ggplot(dplyr::starwars, aes(x=height,y=mass,label=name)) + geom_point() + ggrepel::geom_label_repel()
+- id: ggplot2_export_png
+  domain: visualise
+  grade: easy
+  lang_en: ""
+  lang_fi: "`dplyr`-paketti sisältää datan `starwars`. Tee hajontakuvio (scatterplot), jossa hahmon pituus on x-akselilla, paino y-akselilla. Tallenna kuva levylle .png-muodossa nimellä plotti.png, jonka leveys on 8, korkeus 6 sekä dpi 300"
+  ans: |
+        kuvaobjekti <- ggplot(dplyr::starwars, aes(x=height,y=mass)) + geom_point()
+        ggsave(filename = "plotti.png", plot = kuvaobjekti, width = 8, height = 6, dpi = 300)
+- id: ggplot2_export_pdf_a4
+  domain: visualise
+  grade: easy
+  lang_en: ""
+  lang_fi: "`dplyr`-paketti sisältää datan `starwars`. Tee hajontakuvio (scatterplot), jossa hahmon pituus on x-akselilla, paino y-akselilla. Tallenna kuva levylle .pdf muodossa vaakasuorassa A4-koossa!"
+  ans: |
+        kuvaobjekti <- ggplot(dplyr::starwars, aes(x=height,y=mass)) + geom_point()
+        ggsave(filename = "plotti.pdf", plot = kuvaobjekti, width = 11.7, height = 8.27)
+
+

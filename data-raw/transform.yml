@@ -1,10 +1,91 @@
-- id: summarise_groupby
+- id: filter_single
   domain: transform
-  lang_en: "`dplyr`-package contains data `storms`. Each storms has data on multiple rows from multiple measurement points. How can you get the mean wind speed of each storm?"
-  lang_fi: "`dplyr`-paketti sisältää datan `storms`. Kullekin myrskylle on datassa useita rivejä useasta mittausajankohdasta. Miten saat kunkin myrskyn tuulennopeuden keskiarvon"
-  ans: storms %>% group_by(name) %>% summarise(wind = mean(wind))
-- id: summarise_count
+  lang_en: ""
+  lang_fi: "`dplyr`-paketti sisältää datan `starwars`. Kukin rivi on yksi elokuvan hahmo. Miten valitset hahmot joilla on ruskeat silmät ja teet siitä objektin `suklaasilmat`?"
+  ans: suklaasilmat <- dplyr::starwars %>% filter(eye_color == "brown")
+- id: filter_multiple
   domain: transform
-  lang_en: "`dplyr`-package contains data `storms`. Each storms has data on multiple rows from multiple measurement points. How many measurement points each storms has in the data?"
-  lang_fi: "`dplyr`-paketti sisältää datan `storms`. Kullekin myrskylle on datassa useita rivejä useasta mittausajankohdasta. Kuinka monta mittausajankohtaa kullakin myrskyllä on?"
-  ans: storms %>% count(name) %>% arrange(desc(n))
+  lang_en: ""
+  lang_fi: "`dplyr`-paketti sisältää datan `starwars`. Valitse elokuvan hahmoista ne, jotka ovat painavat alle 100, ovat sukupuoleltaan naisia ja jotka ovat syntyneet vuonna 40 tai sitä aikaisemmin. Tee heistä objekti `naishahmot`"
+  ans: naishahmot <- dplyr::starwars %>% filter(mass < 200, gender == "female", birth_year <= 40)
+- id: select_index
+  domain: transform
+  lang_en: ""
+  lang_fi: "`dplyr`-paketti sisältää datan `starwars`. Valitse datasta kolme ensimmäistä muuttujaa ja tee siitä objekti `kolme_ekaa`"
+  ans: kolme_ekaa <- dplyr::starwars %>% select(1:3)
+- id: select_name_single
+  domain: transform
+  lang_en: ""
+  lang_fi: "`dplyr`-paketti sisältää datan `starwars`. Valitse datasta muuttujat `name` ja `species`, ja tee siitä objekti `nimi_ja_laji`"
+  ans: nimi_ja_laji <- dplyr::starwars %>% select(name, species)
+- id: select_name_starts
+  domain: transform
+  lang_en: ""
+  lang_fi: "`dplyr`-paketti sisältää datan `starwars`. Valitse datasta muuttujat joiden nimessä on sana `color`, ja tee siitä objekti `varit`"
+  ans: varit <- dplyr::starwars %>% select(contains("color"))
+- id: select_negative
+  domain: transform
+  lang_en: ""
+  lang_fi: "`dplyr`-paketti sisältää datan `starwars`. Poista datasta muuttujat joiden nimessä on sana `color`, ja jäljelle jäävistä objekti `ei_varit`"
+  ans: ei_varit <- dplyr::starwars %>% select(-contains("color"))
+- id: filter_select_simple1
+  domain: transform
+  lang_en: ""
+  lang_fi: "`dplyr`-paketti sisältää datan `starwars`. Valitse ainoastaan hahmot jotka kuuluvat ihmislajiin ja heistä muuttujat nimi, sukupuoli ja syntymävuosi. Tee heistä objekti `ihmiset`"
+  ans: ihmiset <- dplyr::starwars %>% filter(species == "Human") %>% select(name,gender,birth_year)
+- id: filter_select_simple2
+  domain: transform
+  lang_en: ""
+  lang_fi: "`dplyr`-paketti sisältää datan `starwars`. Valitse ainoastaan hahmot jotka eivät kuulu ihmislajiin ja heistä muuttujat jotka alkavat kirjaimella `h`. Tee heistä objekti `elukat`"
+  ans: elukat <- dplyr::starwars %>% filter(species != "Human") %>% select(starts_with("h"))
+- id: filter_select_qog
+  domain: transform
+  lang_en: ""
+  lang_fi: 'Tuo R:ään QOG-projektin OECD-datan aikasarja komennolla `dat <- rqog::read_qog(which.data = "oecd", data.type = "time-series")`. Valitse datasta kaikki Maailman pankin World Development Indicators muuttujat (nimi muotoa `wdi_*`) ja nämä Pohjoismailta vuosilta 2000-2010.'
+  ans: |
+        dat <- rqog::read_qog(which.data = "oecd", data.type = "time-series")
+        dat %>% filter(cname %in% c("Finland","Sweden","Norway","Denmark","Iceland"),
+                        year %in% 2000:2010) %>%
+              select(starts_with("wdi_"))
+- id: tidyr_spread
+  domain: transform
+  lang_en: ""
+  lang_fi: 'Tuo R:ään QOG-projektin OECD-datan aikasarja komennolla `dat <- rqog::read_qog(which.data = "oecd", data.type = "time-series")`. Valitse datasta kaikki YK:n inhimillisen kehityksen indeksi ja kaikki Pohjoismaat vuosilta 2000-2010 ja käännä aineisto leveään muotoon tidyr-paketin funktiolla `spread()`'
+  extra: |
+          # Datan tulisi näyttää tältä
+          # cname  2000  2001  2002  2003  2004  2005  2006  2007  2008  2009  2010
+          # Denmark 0.862 0.875 0.882 0.893 0.897 0.902 0.904 0.906 0.906 0.906 0.910
+          # Finland 0.856 0.863 0.866 0.869 0.864 0.869 0.873 0.876 0.878 0.874 0.878
+          # Iceland 0.854 0.859 0.866 0.873 0.879 0.884 0.887 0.892 0.894 0.894 0.894
+          # Norway 0.917 0.916 0.918 0.924 0.929 0.931 0.934 0.936 0.936 0.936 0.939
+          # Sweden 0.877 0.880 0.882 0.888 0.890 0.892 0.895 0.897 0.898 0.895 0.901
+  ans: |
+        dat <- rqog::read_qog(which.data = "oecd", data.type = "time-series")
+        dat %>% filter(cname %in% c("Finland","Sweden","Norway","Denmark","Iceland"),
+                     year %in% 2000:2010) %>%
+        select("cname","year","undp_hdi") %>%
+        spread(year, undp_hdi) -> levea`
+- id: tidyr_gather
+  domain: transform
+  lang_en: ""
+  lang_fi: 'Luo levea data alla olevalla skriptillä ja käännä se takaisin pitkäksi ns. tidy-muotoon tidyr-paketin funktiolla `gather()`'
+  extra: |
+          # MUISTA POISTAA RIVIEN ALUSTA KOMMENTIT!!
+          #
+          # levea <- structure(list(cname = c("Denmark", "Finland", "Iceland", "Norway",
+          # "Sweden"), `2000` = c(0.86199999, 0.85600001, 0.85399997, 0.917,
+          # 0.87699997), `2001` = c(0.875, 0.86299998, 0.85900003, 0.91600001,
+          # 0.88), `2002` = c(0.88200003, 0.866, 0.866, 0.91799998, 0.88200003
+          # ), `2003` = c(0.89300001, 0.86900002, 0.87300003, 0.92400002,
+          # 0.88800001), `2004` = c(0.89700001, 0.86400002, 0.87900001, 0.92900002,
+          # 0.88999999), `2005` = c(0.90200001, 0.86900002, 0.884, 0.93099999,
+          # 0.89200002), `2006` = c(0.90399998, 0.87300003, 0.88700002, 0.93400002,
+          # 0.89499998), `2007` = c(0.90600002, 0.87599999, 0.89200002, 0.93599999,
+          # 0.89700001), `2008` = c(0.90600002, 0.87800002, 0.89399999, 0.93599999,
+          # 0.898), `2009` = c(0.90600002, 0.87400001, 0.89399999, 0.93599999,
+          # 0.89499998), `2010` = c(0.91000003, 0.87800002, 0.89399999, 0.93900001,
+          # 0.90100002)), .Names = c("cname", "2000", "2001", "2002", "2003",
+          # "2004", "2005", "2006", "2007", "2008", "2009", "2010"), class = "data.frame", row.names = c(NA,
+          # -5L))
+  ans: levea %>% gather(key = vuosi, value = arvo, 2:12)
+

@@ -1,0 +1,16 @@
+# Export exercises
+- id: join_nycflights13_1
+  domain: join
+  lang_en: ""
+  lang_fi: "Asenna CRAN:sta paketti `nycflights13` ja lataa se. Datan on kuvattu luvussa: http://r4ds.had.co.nz/relational-data.html#nycflights13-relational - yhdistä datat flights ja airlines. Kuinka monta lentoa `Hawaiian Airlines Inc.` lensi New Yorkista vuonna 2013. Datojen dokumentaation saa esim. komennolla ?flights"
+  ans: left_join(flights, airlines) %>% filter(name == "Hawaiian Airlines Inc.") %>% summarise(n=n())
+- id: join_nycflights13_2
+  domain: join
+  lang_en: ""
+  lang_fi: "Yhdistä dataan flights datat airlines ja planes. Kuinka monta lentoa matkustajaa `US Airways Inc.` yhtiön lennoilla New Yorkista oli keskimäärin vuonna 2013."
+  ans: left_join(flights, airlines) %>% left_join(planes) %>% filter(name == "US Airways Inc.") %>% summarise(seats = mean(seats, na.rm = TRUE))
+- id: join_nycflights13_3
+  domain: join
+  lang_en: ""
+  lang_fi: "Yhdistä dataan flights data airports ja weather. Montako sellaista lentoa kentältä JFK:n kentältä lähti jolloin tuulennopeus >= 30?"
+  ans: left_join(flights, airports, by = c("origin" = "faa")) %>% left_join(weather) %>% filter(origin == "JFK") %>% filter(wind_speed >= 30) %>% count()
