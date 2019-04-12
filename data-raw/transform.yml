@@ -1,8 +1,8 @@
 - id: filter_single
   domain: transform
   lang_en: ""
-  lang_fi: "`dplyr`-paketti sisältää datan `starwars`. Kukin rivi on yksi elokuvan hahmo. Miten valitset hahmot joilla on ruskeat silmät ja teet siitä objektin `suklaasilmat`?"
-  ans: suklaasilmat <- dplyr::starwars %>% filter(eye_color == "brown")
+  lang_fi: "`dplyr`-paketti sisältää datan `starwars`. Kukin rivi on yksi elokuvan hahmo. Miten valitset hahmot joilla on siniset silmät ja teet siitä objektin `sinisilmat`?"
+  ans: sinisilmat <- dplyr::starwars %>% filter(eye_color == "blue")
 - id: filter_multiple
   domain: transform
   lang_en: ""
@@ -41,16 +41,16 @@
 - id: filter_select_qog
   domain: transform
   lang_en: ""
-  lang_fi: 'Tuo R:ään QOG-projektin OECD-datan aikasarja komennolla `dat <- rqog::read_qog(which.data = "oecd", data.type = "time-series")`. Valitse datasta kaikki Maailman pankin World Development Indicators muuttujat (nimi muotoa `wdi_*`) ja nämä Pohjoismailta vuosilta 2000-2010.'
+  lang_fi: 'Tuo R:ään QOG-projektin OECD-datan aikasarja komennolla `dat <- rqog::read_qog(which_data = "oecd", year = 2019, data_type = "time-series")`. Valitse datasta kaikki Maailman pankin World Development Indicators muuttujat (nimi muotoa `wdi_*`) ja nämä Pohjoismailta vuosilta 2000-2010.'
   ans: |
-        dat <- rqog::read_qog(which.data = "oecd", data.type = "time-series")
+        dat <- rqog::read_qog(which_data = "oecd", year = 2019, data_type = "time-series")
         dat %>% filter(cname %in% c("Finland","Sweden","Norway","Denmark","Iceland"),
-                        year %in% 2000:2010) %>%
-              select(starts_with("wdi_"))
+                 year %in% 2000:2010) %>%
+        select(starts_with("wdi_"))
 - id: tidyr_spread
   domain: transform
   lang_en: ""
-  lang_fi: 'Tuo R:ään QOG-projektin OECD-datan aikasarja komennolla `dat <- rqog::read_qog(which.data = "oecd", data.type = "time-series")`. Valitse datasta kaikki YK:n inhimillisen kehityksen indeksi ja kaikki Pohjoismaat vuosilta 2000-2010 ja käännä aineisto leveään muotoon tidyr-paketin funktiolla `spread()`'
+  lang_fi: 'Tuo R:ään QOG-projektin OECD-datan aikasarja komennolla `dat <- rqog::read_qog(which_data = "oecd", data_type = "time-series", year = 2019)`. Valitse datasta kaikki YK:n inhimillisen kehityksen indeksi ja kaikki Pohjoismaat vuosilta 2000-2010 ja käännä aineisto leveään muotoon tidyr-paketin funktiolla `spread()`'
   extra: |
           # Datan tulisi näyttää tältä
           # cname  2000  2001  2002  2003  2004  2005  2006  2007  2008  2009  2010
@@ -60,11 +60,11 @@
           # Norway 0.917 0.916 0.918 0.924 0.929 0.931 0.934 0.936 0.936 0.936 0.939
           # Sweden 0.877 0.880 0.882 0.888 0.890 0.892 0.895 0.897 0.898 0.895 0.901
   ans: |
-        dat <- rqog::read_qog(which.data = "oecd", data.type = "time-series")
+        dat <- rqog::read_qog(which_data = "oecd", data_type = "time-series", year = 2019)
         dat %>% filter(cname %in% c("Finland","Sweden","Norway","Denmark","Iceland"),
                      year %in% 2000:2010) %>%
         select("cname","year","undp_hdi") %>%
-        spread(year, undp_hdi) -> levea`
+        spread(year, undp_hdi) -> levea
 - id: tidyr_gather
   domain: transform
   lang_en: ""

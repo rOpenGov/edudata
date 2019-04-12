@@ -1,13 +1,15 @@
 # Basics assignments
 - id: create_numeric_vector
   domain: basics
-  grade: easy
+#  grade: " "
   lang_fi: "Miten luot numeerisen vektorin, jossa luvut 1 ja 2"
   lang_en: "Create a numeric vector containing numbers 1 and 2"
   ans: |
         c(1,2)
         # Or
         c(1:2)
+        # Or
+        1:2
 - id: create_character_vector
   domain: basics
   lang_fi: "Miten luot kirjainvektorin, jossa sanat `yksi` ja `kaksi`"
@@ -46,12 +48,18 @@
   domain: basics
   lang_fi: "Millä komennolla luot nykyisen työhakemistoon kansion `assignment1`"
   lang_en: "Create a new folder `assignment1` into your current working directory"
-  ans: dir.create("./assignment1")
+  ans: |
+        dir.create("./assignment1")
+        # Or
+        fs::dir_create("./assignment1")
 - id: filesystem_dir_create_rec
   domain: basics
   lang_fi: "Millä komennolla luot nykyisen työhakemistoon kansion `assignment1/plots`"
   lang_en: "Create a new folder `assignment1/plots` into your current working directory"
-  ans: dir.create("./assignment1/plots", resursive = TRUE)
+  ans: |
+        dir.create("./assignment1/plots", recursive = TRUE)
+        # Or
+        fs::dir_create("./assignment1/plots", recursive = TRUE)
 - id: filesystem_file_create_copy
   domain: basics
   lang_fi: "Luo kansioon `assignment1` tiedosto 'notes.txt' ja kopioi se samaan kansioon nimellä `notes.md`"
@@ -60,34 +68,52 @@
         file.create("./assignment1/notes.txt")
         # And
         file.copy("./assignment1/notes.txt", "./assignment1/notes.md")
+        # Or
+        fs::file_create("./assignment1/notes.txt")
+        # And
+        fs::file_copy(path = "./assignment1/notes.txt", new_path = "./assignment1/notes.md", overwrite = TRUE)
 - id: filesystem_list_files
   domain: basics
   lang_fi: "Listaa nykyisen työhakemistosi tiedostot"
   lang_en: "List all files in your current working directory"
-  ans: list.files(path = "./", all.files = TRUE, full.names = TRUE)
+  ans: |
+        list.files(path = "./", all.files = TRUE, full.names = TRUE)
+        # Or
+        fs::dir_info(path = "./", type = "file")
 - id: filesystem_file_remove
   domain: basics
   lang_fi: "Poista nykyisestä työhakemistosta tiedosto `file.txt`"
   lang_en: "Remove file `file.txt` from your current working directory"
-  ans: file.remove("./file.txt")
+  ans: |
+        file.remove("./file.txt")
+        # Or
+        fs::file_delete(path = "./file.txt")
 - id: filesystem_dir_remove
   domain: basics
   lang_fi: "Poista nykyisestä työhakemistosta kansio `assignment1`"
   lang_en: "Remove folder `assignment1` from your current working directory"
-  ans: unlink("./assignment1",recursive= TRUE, force=TRUE)
+  ans: |
+        unlink("./assignment1",recursive= TRUE, force=TRUE)
+        # Or
+        fs::dir_delete(path = "./assignment1")
 - id: packages_install
   domain: basics
   lang_fi: "Asenna CRAN:sta paketti `eurostat`"
   lang_en: "Install package `eurostat` from CRAN"
-  ans: install.packages("eurostat")
+  ans: |
+        install.packages("eurostat")
+        # Or
+        install.packages('eurostat')
 - id: packages_install_github
   domain: basics
   lang_fi: "Asenna Github:sta paketti `rqog` osoitteesta https://github.com/ropengov/rqog"
   lang_en: "Install package `rqog` from Github at https://github.com/ropengov/rqog"
   ans: |
         devtools::install_github("ropengov/rqog")
+        remotes::install_github("ropengov/rqog")
         # Or
         devtools::install_git("https://github.com/ropengov/rqog")
+        remotes::install_git("https://github.com/ropengov/rqog")
 - id: packages_update_packages
   domain: basics
   lang_fi: "Päivitä kaikki CRAN:sta asentamasi paketit"
@@ -95,7 +121,7 @@
   ans: update.packages(ask = FALSE)
 - id: extra_data_structure_dataframe
   domain: basics
-  grade: easy
+#  grade: " "
   lang_fi: "Luo data ydinasevaltioista, niiden presidenteistä/valtiopäämiehistä ja väestömäärästä (ks. https://en.wikipedia.org/wiki/List_of_states_with_nuclear_weapons)"
   lang_en: "Create data of states with nuclear weapons, with presidents/heads of state and population (see https://en.wikipedia.org/wiki/List_of_states_with_nuclear_weapons)"
   lang_se: "Skapa tabell över stater med kärnvapen, med presidenter och befolkning"
@@ -105,26 +131,25 @@
         ##             country         president population
         ## 1      United States      Donald Trump       1234
         ## 2 Russian Federation    Vladimir Putin       1234
-        ## 3             France François Hollande       1234
+        ## 3             France   Emmanuel Macron       1234
         ## 4     United Kingdom      Elisabeth II       1234
         ## 5              China        Xi Jinping       1234
   ans: |
         data.frame(country = c('United States','Russian Federation','France','United Kingdom','China'),
-                    president = c('Donald Trump','Vladimir Putin','François Hollande','Elisabeth II','Xi Jinping'),
+                    president = c('Donald Trump','Vladimir Putin','Emmanuel Macron','Elisabeth II','Xi Jinping'),
                     population = c(1234,1234,1234,1234,1234),
                     stringsAsFactors=FALSE)
-                    )
         # Or
-        dplyr::data_frame(country = c('United States','Russian Federation','France','United Kingdom','China'),
-                    president = c('Donald Trump','Vladimir Putin','François Hollande','Elisabeth II','Xi Jinping'),
-                    population = c(1234,1234,1234,1234,1234))
+        dplyr::tibble(country = c('United States','Russian Federation','France','United Kingdom','China'),
+                    president = c('Donald Trump','Vladimir Putin','Emmanuel Macron','Elisabeth II','Xi Jinping'),
+                    population = c(1234,1234,1234,1234,1234)
                     )
         tibble::tribble(
         # Or
         ~country, ~president, ~population,
         "United States","Donald Trump",1234,
         "Russian Federation","Vladimir Putin",1234,
-        "United Kingdom","François Hollande",1234,
+        "United Kingdom","Emmanuel Macron",1234,
         "France","Elisabeth II", 1234,
         "China" ,"Xi Jinping", 1234
         )
@@ -136,6 +161,8 @@
         df$iso2 <- c("us","ru","gb","fr","cn")
         # Or
         df["iso2"] <- c("us","ru","gb","fr","cn")
+        # Or
+        dplyr::mutate(df, iso2 = c("us","ru","gb","fr","cn"))
 - id: data_structure_dataframe_add_row
   domain: basics
   lang_fi: "Lisää ydinasevaltiodataan uusi rivi eli maa nimeltä Pakistan, ja siitä tiedot country, president, population ja iso2-koodi"
@@ -147,11 +174,17 @@
                       president = "pressa",
                       population = 1234,
                       iso2 = "PK")
-        bind_rows(df, pakdata)
+        bind_rows(df, pak_data)
+        # Or
+        pak_data <- dplyr::tibble(country = "Pakistan",
+                      president = "pressa",
+                      population = 1234,
+                      iso2 = "PK")
+        bind_rows(df, pak_data)
 - id: data_summary_head
   domain: basics
   lang_fi: "Komennolla ´starwars <- dplyr::starwars` saat objektin `starwars´. Miten saat konsoliin datan kuusi ensimmäistä riviä?"
-  lang_en: "Install and load package `plm` with comman `install.packages('plm'); library(plm)` to data `Males`. How can you print the first six rows of data into console?"
+  lang_en: "translation missing"
   ans: |
         starwars[1:6,]
         # Or
@@ -161,7 +194,7 @@
 - id: data_summary_str
   domain: basics
   lang_fi: "Komennolla ´starwars <- dplyr::starwars` saat objektin `starwars´. Miten saat konsoliin datan muuttujien luokat?"
-  lang_en: "Install and load package `plm` with comman `install.packages('plm'); library(plm)` to data `Males`. How can you print the classes of each variable into console?"
+  lang_en: "translation missing"
   ans: |
         str(starwars)
         # Or
@@ -169,8 +202,11 @@
 - id: data_summary_stats_varmean
   domain: basics
   lang_fi: "Komennolla ´starwars <- dplyr::starwars` saat objektin `starwars´. Mikä on `height` muuttujan keskiarvo?"
-  lang_en: "Install and load package `plm` with comman `install.packages('plm'); library(plm)` to data `Males`. What is the mean of `exper` variables (experience)?"
-  ans: mean(starwars$height)
+  lang_en: "translation missing"
+  ans: |
+        mean(starwars$height)
+        # Or
+        dplyr::summarise(starwars, mean = mean(height, na.rm = TRUE))
 - id: data_summary_unique
   domain: basics
   lang_fi: "Komennolla ´starwars <- dplyr::starwars` saat objektin `starwars´. Montako uniikkia lajia (muuttuja `species`) aineistossa on?"
@@ -178,7 +214,7 @@
   ans: |
         length(unique(starwars$species))
         # Or
-        dplyr::count(starwars, species)
+        dplyr::count(starwars, species) %>% nrow()
 - id: data_summary_share
   domain: basics
   lang_fi: "Komennolla ´starwars <- dplyr::starwars` saat objektin `starwars´. Mikä osuus datan otuksista on vihreitä iholtaan (muuttuja `skin_color`)?"

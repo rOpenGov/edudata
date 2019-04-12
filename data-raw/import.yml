@@ -1,19 +1,19 @@
 # Import exercises
 - id: download_csv_from_qog
   domain: import
-  lang_fi: "Quality of Governmentin Basic data on osoitteessa `http://www.qogdata.pol.gu.se/data/qog_bas_cs_jan18.csv`. Miten luot kansion `aineisto` ja tallennan ko. tiedoston sinne?"
+  lang_fi: "Quality of Governmentin Basic data on osoitteessa `http://www.qogdata.pol.gu.se/data/qog_bas_cs_jan19.csv`. Miten luot kansion `aineisto` ja tallennat ko. tiedoston sinne?"
   lang_en: ""
   ans: |
        dir.create("./aineisto")
-       download.file(url = "http://www.qogdata.pol.gu.se/data/qog_bas_cs_jan18.csv", destfile = "./aineisto/qog_bas_cs_jan18.csv", mode = "wb")
+       download.file(url = "http://www.qogdata.pol.gu.se/data/qog_bas_cs_jan19.csv", destfile = "./aineisto/qog_bas_cs_jan19.csv", mode = "wb")
 - id: read_csv_two_ways
   domain: import
   lang_fi: "Miten luet edellä lataamasi `csv`-datan R:n käyttäen molempien `readr::read_csv()` ja `read.csv()` -funktioita?"
   lang_en: ""
   ans: |
-       read.csv("./aineisto/qog_bas_cs_jan18.csv", stringsAsFactors = FALSE)
+       read.csv("./aineisto/qog_bas_cs_jan19.csv", stringsAsFactors = FALSE)
        # Or
-       readr::read_csv("./aineisto/qog_bas_cs_jan18.csv")
+       readr::read_csv("./aineisto/qog_bas_cs_jan19.csv")
 - id: import_csv_data_from_url
   domain: import
   lang_fi: "Miten tuot datasetin `pension` R:ään sivulta: https://vincentarelbundock.github.io/Rdatasets/datasets.html "
@@ -28,8 +28,8 @@
   lang_en: "How download and save dataset `pensions` into folder `data` from page: https://vincentarelbundock.github.io/Rdatasets/datasets.html and to read into R"
   ans: |
        dir.create("./aineisto")
-       download.file(url = "https://vincentarelbundock.github.io/Rdatasets/csv/plm/pension.csv", destfile = "./aineisto/pension.csv")
-       read.csv("./aineisto/pension.csv", header = TRUE, stringsAsFactors = FALSE)
+       download.file(url = "https://vincentarelbundock.github.io/Rdatasets/csv/plm/Males.csv", destfile = "./aineisto/Males.csv")
+       read.csv("./aineisto/Males.csv", header = TRUE, stringsAsFactors = FALSE)
 - id: import_haven_stata
   domain: import
   lang_fi: "Lataa 'Life in Transition II' aineisto kansioon `aineisto` sivulta: http://www.ebrd.com/news/publications/special-reports/life-in-transition-survey-ii.html ja lue se R:ään. Selvitä kuinka monta riviä ja saraketta aineistossa on?"
@@ -40,16 +40,17 @@
        dim(lits)
 - id: import_excel_wb_gini
   domain: import
-  lang_fi: "Maailmanpankki ylläpitää ekseliä, johon on koottu taloudellista eriarvoisuutta kuvaavan gini-indeksin arvoja eri maista eri tutkimusprojekteista. Ekseli sijaitsee täällä: http://siteresources.worldbank.org/INTRES/Resources/469232-1107449512766/allginis_2013.xls -  miten luet sen R:ään?"
+  lang_fi: "Maailmanpankki ylläpitää ekseliä, johon on koottu taloudellista eriarvoisuutta kuvaavan gini-indeksin arvoja eri maista eri tutkimusprojekteista. Ekseli sijaitsee täällä: http://siteresources.worldbank.org/INTRES/Resources/469232-1107449512766/allginis_2013.xls -  miten saat välilehtien nimet selville ja miten luet välilehden 'data' R:ään?"
   lang_en: "World Bank mainstans an excel file that contains gini inequality indices from different research projects from different countries in here: http://siteresources.worldbank.org/INTRES/Resources/469232-1107449512766/allginis_2013.xls -  how do you read that into R?"
   ans: |
        download.file("http://siteresources.worldbank.org/INTRES/Resources/469232-1107449512766/allginis_2013.xls",
               "./aineisto/allginis_2013.xls", mode="wb")
+       sheets <- readxl::read_excel("./aineisto/allginis_2013.xls")
        d <- readxl::read_excel("./aineisto/allginis_2013.xls")
 - id: import_excel_random
   domain: import
-  lang_fi: "Laita joku excel-tiedosto johonkin paikkaan internetissä ja kirjoita alle koodi, jolla jokainen voi sen ladata sen R:ään"
-  lang_en: "Upload an excel file into some location in internet and provide a code that everyone can use to download it into R"
+  lang_fi: "Laita joku excel-tiedosto johonkin paikkaan internetissä/intranetissa/verkkolevyllä ja kirjoita alle koodi, jolla kouluttaja voi sen ladata sen R:ään"
+  lang_en: "Upload an excel file into some location in internet/intranet/network drive and provide a code that instructor can use to download it into R"
   ans: |
        download.file(url = "http://www.randomsite.com/file.xlsx", "./file.xlsx", mode = "wb")
        df <- readxl::read_excel("./file.xlsx")
@@ -65,3 +66,16 @@
   ans: |
        eurostat::search_eurostat(pattern = "household income")
        eurostat::get_eurostat(id = "tour_dem_ttinc")
+- id: import_zip_faostat
+  domain: import
+  lang_fi: "YK:n ruoka- ja elintarvikejärjestö FAO:n FAOSTAT-palvelusta voit ladata zipattuja .csv-tiedostoja. Miten lataat seuraavan tiedoston R:ään ja montako riviä siinä on? http://fenixservices.fao.org/faostat/static/bulkdownloads/Production_Crops_E_All_Data_(Normalized).zip"
+  ans: |
+       download.file(url = "http://fenixservices.fao.org/faostat/static/bulkdownloads/Production_Crops_E_All_Data_(Normalized).zip",
+              destfile = "./aineisto/Production_Crops_E_All_Data_(Normalized).zip")
+       unzip("./aineisto/Production_Crops_E_All_Data_(Normalized).zip", exdir = "./aineisto")
+       file.remove("./aineisto/Production_Crops_E_All_Data_(Normalized).zip")
+       d <- readr::read_csv("./aineisto/Production_Crops_E_All_Data_(Normalized).csv")
+       nrow(d)
+
+
+

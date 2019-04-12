@@ -1,18 +1,34 @@
 # Basics assignments
+- id: installation
+  domain: tidyverse
+#  grade: " "
+  lang_fi: "Millä komennolla asennat Tidyversen paketit?"
+  ans: install.packages('tidyverse')
 - id: seven_stages
   domain: tidyverse
-  grade: easy
-  lang_fi: "Mitkä ovat data-analyysin seitsemän vaihetta joiden ympärille Tidyverse rakentuu? Vastaa sanallisesti."
+#  grade: " "
+  lang_fi: "Mitkä ovat data-analyysin seitsemän vaihetta joiden ympärille Tidyverse rakentuu? Vastaa suomeksi!"
   ans: |
         # Tuo > Siivoa > Muokkaa > Visualisoi > Mallinna > Kommunikoi < Ohjelmoi
 - id: tidyverse_author
   domain: tidyverse
-  lang_fi: "Minkä niminen henkilö on Tidyversen takana?"
-  lang_en: "How can you export a graph in pdf format?"
+  lang_fi: "Kuka on Tidyverse-projektin ns. pääpiru? Vastaa suomeksi!"
+  lang_en: "translation missing"
   ans: |
         # Hadley Wickham
 - id: tidy_data_definition
   domain: tidyverse
-  lang_fi: "Mikä on tidy datan määritelmä? Vastaa suomeksi"
+  lang_fi: "Mikä on tidy datan määritelmä? Vastaa suomeksi!"
   ans: |
         # Muuttujat sarakkeissa, tapaukset riveillä ja eri asiat eri datoissa
+- id: tidyverse_core_packages
+  domain: tidyverse
+  lang_fi: "Montako pakettia kuuluu Tidyversen ns. ytimeen (core)? Vastaa suomeksi!"
+  ans: |
+        # Kahdeksan
+- id: tidyverse_additional_packages
+  domain: tidyverse
+  lang_fi: "install.packages('tidyverse') asentaa ydinpakettien lisäksi myös muita paketteja. Mikä näistä soveltuu SAS tai SPSS -tiedostojen lukemiseen. Vastaa suomeksi!"
+  ans: |
+        # haven
+
