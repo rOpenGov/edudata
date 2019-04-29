@@ -12,37 +12,48 @@
 - id: filter_multiple_summarise
   domain: group_by
   lang_en: ""
-  lang_fi: "`dplyr`-paketti sisältää datan `starwars`. Kukin rivi on yksi elokuvan hahmo. Miten saat eri sukupuolten mediaanipituuden hiusten väriän mukaan käyttämällä funktioita `group_by`, `summarise` ja `median`?"
+  lang_fi: "`dplyr`-paketti sisältää datan `starwars`. Kukin rivi on yksi elokuvan hahmo. Miten saat eri sukupuolten mediaanipituuden silmien värin mukaan käyttämällä funktioita `group_by`, `summarise` ja `median`?"
   ans: dplyr::starwars %>% group_by(gender,eye_color) %>% summarise(pituus = median(height, na.rm = TRUE))
 - id: group_by_ess_ppltrst
   domain: group_by
   lang_en: ""
-  lang_fi: "Käy ensin läpi sivun http://courses.markuskainu.fi/utur2018/data.html video ja tallennusvaiheet. Lataa ess-data objektiksi `ess`, ryhmittele se maan mukaan ja laske kullekin maalle yleisen luottamuksen keskiarvo (koodi ´ppltrst`)"
+  lang_fi: "Lue ESS-data R:ään. Ryhmittele se maan mukaan ja laske kullekin maalle yleisen luottamuksen keskiarvo (koodi ´ppltrst`) ja järjestä maat ko. arvon mukaan laskevaan järjestykseen"
   ans: |
-        ess <- haven::read_dta("./datasetit/ESS8e01.stata/ESS8e01.dta")
+        ess <- readRDS(url("http://courses.markuskainu.fi/utur2018/datasetit/rds/ESS8e01.RDS"))
         ess %>%
         group_by(cntry) %>%
         summarise(ppltrst = mean(ppltrst, na.rm = TRUE))
 - id: group_by_ess_qog_basic_diat_ti
   domain: group_by
   lang_en: ""
-  lang_fi: 'Tuo R:ään QOG-projektin Basic-datan aikasarja komennolla `dat <- rqog::read_qog(which.data = "basic", data.type = "time-series")`. Valitse datasta Transparency index (koodi `diat_ti`) ja laske tästä kunkin Pohjoismaan keskiarvo vuosilta 2000-2010. (funktio `mean(x, nr.rm = TRUE)`'
+  lang_fi: 'Tuo R:ään QOG-projektin Basic-datan aikasarja komennolla `dat <- rqog::read_qog(which_data = "basic", data_type = "time-series", year = 2019)`. Valitse datasta Transparency index (koodi `diat_ti`) ja laske tästä kunkin Suomen ja Suomen naapurimaiden keskiarvot vuosilta 2000-2010. (funktio `mean(x, nr.rm = TRUE)`'
   ans: |
-        dat <- rqog::read_qog(which.data = "basic", data.type = "time-series")
+        dat <- rqog::read_qog(which_data = "basic", data_type = "time-series", year = 2019)
         dat %>%
-          filter(cname %in% c("Finland","Sweden","Norway","Denmark","Iceland"),
+          filter(cname %in% c("Finland","Sweden","Norway","Russia","Estonia"),
                  year %in% 2000:2010) %>%
           group_by(cname) %>%
           summarise(diat_ti = mean(diat_ti, na.rm = TRUE))
 - id: group_by_ess_qog_basic_diat_ti_2
   domain: group_by
   lang_en: ""
-  lang_fi: 'Tuo R:ään QOG-projektin Basic-datan aikasarja komennolla `dat <- rqog::read_qog(which.data = "basic", data.type = "time-series")`. Valitse datasta Transparency index (koodi `diat_ti`) ja laske tästä Pohjoismaiden yhteinen keskiarvo kullekin vuodelle 2000-2010. (funktio `mean(x, nr.rm = TRUE)`'
+  lang_fi: 'Tuo R:ään QOG-projektin Basic-datan aikasarja komennolla `dat <- rqog::read_qog(which_data = "basic", data_type = "time-series", year = 2019)`. Valitse datasta Transparency index (koodi `diat_ti`) ja laske Pohjoismaiden yhteinen keskiarvo kullekin vuodelle 2000-2010. (funktio `mean(x, nr.rm = TRUE)`'
   ans: |
-        dat <- rqog::read_qog(which.data = "basic", data.type = "time-series")
+        dat <- rqog::read_qog(which_data = "basic", data_type = "time-series", year = 2019)
         dat %>%
           filter(cname %in% c("Finland","Sweden","Norway","Denmark","Iceland"),
                  year %in% 2000:2010) %>%
           group_by(year) %>%
           summarise(diat_ti = mean(diat_ti, na.rm = TRUE))
+- id: group_by_ess_qog_basic_diat_ti_3
+  domain: group_by
+  lang_en: ""
+  lang_fi: 'Tuo R:ään QOG-projektin Basic-datan aikasarja komennolla `dat <- rqog::read_qog(which_data = "basic", data_type = "time-series", year = 2019)`. Minkä maan Transparency index (koodi `diat_ti`) -indikaattorin keskiarvo on ollut korkein vuosina 2000-2010'
+  ans: |
+        dat <- rqog::read_qog(which_data = "basic", data_type = "time-series", year = 2019)
+        dat %>%
+          filter(year %in% 2000:2010) %>%
+          group_by(cname) %>%
+          summarise(diat_ti = mean(diat_ti, na.rm = TRUE)) %>%
+          arrange(desc(diat_ti))
 

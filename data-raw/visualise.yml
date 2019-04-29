@@ -14,7 +14,7 @@
   domain: visualise
   grade: easy
   lang_en: ""
-  lang_fi: 'Tuo R:ään QOG-propektin OECD-datan aikasarja komennolla `dat <- rqog::read_qog(which_data = "oecd", data_type = "time-series", year = 2019)`. Piirrä funktiolla `geom_line()` viivakuvio, jossa x-akselilla on vuosi ja y-akselilla YK:n ihnimillisen kehityksen indeksi ja viivan väri on maan nimen mukaan.'
+  lang_fi: 'Tuo R:ään QOG-projektin OECD-datan aikasarja komennolla `dat <- rqog::read_qog(which_data = "oecd", data_type = "time-series", year = 2019)`. Piirrä funktiolla `geom_line()` viivakuvio, jossa x-akselilla on vuosi ja y-akselilla YK:n ihnimillisen kehityksen indeksi ja viivan väri on maan nimen mukaan.'
   ans: |
         dat <- rqog::read_qog(which_data = "oecd", year = 2019. data_type = "time-series")
         ggplot(dat, aes(x = year, y = undp_hdi, color = cname)) + geom_line()
@@ -22,112 +22,10 @@
   domain: visualise
   grade: easy
   lang_en: ""
-  lang_fi: 'Tuo R:ään QOG-propektin OECD-datan aikasarja komennolla `dat <- rqog::read_qog(which.data = "oecd", data.type = "time-series")`. Valitse datasta Suomi. Piirrä funktiolla `geom_col()` tolppakuvio, jossa x-akselilla on vuosi ja y-akselilla YK:n ihnimillisen kehityksen indeksi. Anna kuviolle otsikko "Inhimillisen kehityksen indeksi Suomessa"'
+  lang_fi: 'Tuo R:ään QOG-projektin OECD-datan aikasarja komennolla `dat <- rqog::read_qog(which.data = "oecd", data.type = "time-series")`. Valitse datasta Suomi. Piirrä funktiolla `geom_col()` tolppakuvio, jossa x-akselilla on vuosi ja y-akselilla YK:n ihnimillisen kehityksen indeksi. Anna kuviolle otsikko "Inhimillisen kehityksen indeksi Suomessa"'
   ans: |
         dat <- rqog::read_qog(which_data = "oecd", year = 2019, data_type = "time-series")
         ggplot(dat %>% filter(cname == "Finland"), aes(x = year, y = undp_hdi)) + geom_col() + labs(title = "Inhimillisen kehityksen indeksi Suomessa")
-- id: ggplot2_geom_col_facet
-  domain: visualise
-  grade: medium
-  lang_en: ""
-  lang_fi: 'Tuo R:ään QOG-propektin basic-datan aikasarja komennolla `dat <- rqog::read_qog(which_data = "basic", year = 2019, data_type = "time-series")`. Valitse datasta Yhdysvallat, Kiina ja Venäjä. Piirrä funktiolla `geom_col()` tolppakuvio, jossa x-akselilla on vuosi ja y-akselilla YK:n ihnimillisen kehityksen indeksi ja eri maat paneleissa "facetoituina" (funktio `facet_wrap()`). Anna kuviolle otsikko "Inhimillisen kehityksen indeksi"'
-  ans: |
-        dat <- rqog::read_qog(which_data = "basic", year = 2019, data_type = "time-series")
-        kuvadata <- dat %>% filter(cname %in% c("Canada","United States","Russia"),
-                                   !is.na(undp_hdi))
-        ggplot(kuvadata, aes(x = year, y = undp_hdi)) + geom_col() + labs(title = "Inhimillisen kehityksen indeksi") + facet_wrap(~cname)
-- id: ggplot2_geom_line_qog
-  domain: visualise
-  grade: medium
-  lang_en: ""
-  lang_fi: 'Tuo R:ään QOG-propektin basic-datan aikasarja komennolla `dat <- rqog::read_qog(which_data = "basic", year = 2019, data_type = "time-series")`. Miten saat tehtyä tällaisen kuvan http://courses.markuskainu.fi/utur2019/kuvat/hdi.png'
-  ans: |
-        dat <- rqog::read_qog(which_data = "basic", year = 2019, data_type = "time-series")
-        kuvadata <- dat %>% filter(cname %in% c("Canada","United States","Russia"),
-                                   !is.na(undp_hdi))
-        p <- ggplot(kuvadata, aes(x = year, y = undp_hdi, color = cname)) +
-          geom_point() + geom_line() +
-          labs(title = "Inhimillisen kehityksen indeksi")
-        p
-- id: ggplot2_geom_line_bkt
-  domain: visualise
-  grade: medium
-  lang_en: ""
-  lang_fi: 'Tuo R:ään QOG-propektin basic-datan aikasarja komennolla `dat <- rqog::read_qog(which_data = "basic", year = 2019, data_type = "time-series")`. Miten saat tehtyä tällaisen kuvan http://courses.markuskainu.fi/utur2019/kuvat/ggplot2_geom_line_bkt.png'
-  ans: |
-        dat <- rqog::read_qog(which_data = "basic", year = 2019, data_type = "time-series")
-        p <- ggplot(dat, aes(x = year, y = gle_cgdpc, group = cname)) +
-          geom_point() + geom_line() +
-          labs(title = "bruttokansantuote kansalaista kohden")
-        p
-- id: ggplot2_geom_histogram_qog
-  domain: visualise
-  grade: medium
-  lang_en: ""
-  lang_fi: 'Tuo R:ään QOG-propektin basic-datan aikasarja komennolla `dat <- rqog::read_qog(which_data = "basic", year = 2019, data_type = "time-series")`. Miten saat tehtyä tällaisen kuvan http://courses.markuskainu.fi/utur2019/kuvat/ggplot2_geom_histogram_qog.png'
-  ans: |
-        dat <- rqog::read_qog(which_data = "basic", year = 2019, data_type = "time-series")
-        kuvadata <- dat %>% filter(year == 2011) %>% select(cname,gle_cgdpc)
-        p <- ggplot(kuvadata, aes(x = gle_cgdpc)) + geom_histogram() +
-          labs(title = "Bruttokansantuote kansalaista kohden vuonna 2011 eri maissa")
-        p
-- id: ggplot2_geom_bar_ess
-  domain: visualise
-  grade: medium
-  lang_en: ""
-  lang_fi: "Lataa ess-data objektiksi `ess`. Piirrä siitä tolppakuvio tapausten määrästä joka näyttä tältä: http://courses.markuskainu.fi/utur2019/kuvat/ggplot2_geom_bar_ess.png"
-  ans: |
-        dat <- haven::read_dta("./datasetit/ESS8e01.stata/ESS8e01.dta")
-        p <- ggplot(dat, aes(x = cntry)) + geom_bar() +
-          labs(title = "Otoskoko ESS-aineiston rundilla 8")
-        p
-- id: ggplot2_geom_col_geom_text_ess
-  domain: visualise
-  grade: medium
-  lang_en: ""
-  lang_fi: "Lataa ess-data objektiksi `ess`. Piirrä siitä tolppakuvio otoksen iän maittaisista keskiarvoista joka näyttä tältä: http://courses.markuskainu.fi/utur2018/harjoitukset/kuvat/ggplot2_geom_col_geom_text_ess.png"
-  ans: |
-        dat <- haven::read_dta("./datasetit/ESS8e01.stata/ESS8e01.dta")
-        kuvadata <- dat %>% group_by(cntry) %>% summarise(agea = round(mean(agea, na.rm = TRUE),1))
-        p <- ggplot(kuvadata, aes(x = cntry, y = agea, label = agea)) + geom_col() + geom_text() +
-          labs(title = "ESS kierros 8: eri maiden otosten iän keskiarvo")
-        p
-- id: ggplot2_geom_scatter_geom_text_ess
-  domain: visualise
-  grade: medium
-  lang_en: ""
-  lang_fi: "Lataa ess-data objektiksi `ess`. Piirrä siitä tolppakuvio tapausten määrästä joka näyttä tältä: http://courses.markuskainu.fi/utur2018/harjoitukset/kuvat/ggplot2_geom_scatter_geom_text_ess.png"
-  ans: |
-        dat <- haven::read_dta("./datasetit/ESS8e01.stata/ESS8e01.dta")
-        kuvadata <- dat %>% group_by(cntry) %>%
-          mutate(health = ifelse(health %in% c(7,8,9), NA, health),
-                 ppltrst = ifelse(ppltrst %in% c(77,88,99), NA, ppltrst)) %>%
-          summarise(health = mean(health, na.rm = TRUE),
-                    ppltrst = mean(ppltrst, na.rm = TRUE))
-        p <- ggplot(kuvadata, aes(x = ppltrst, y = health, label = cntry)) +
-          geom_point() + geom_text(nudge_y = .03) +
-          labs(title = "ESS kierros 8: luottamus ihmisiin ja koettu terveys",
-               subtitle = "Luottamus: mitä suurempi arvo sitä korkeampi luottamus
-        Terveys: mitä pienempi arvo sitä parempi terveys",
-               caption = "Data: European Social Survey")
-- id: visu_theme_default
-  domain: visualise
-  grade: medium
-  lang_en: ""
-  lang_fi: "Tee  `ess`. Piirrä siitä tolppakuvio tapausten määrästä joka näyttä tältä: http://courses.markuskainu.fi/utur2018/harjoitukset/kuvat/ggplot2_geom_scatter_geom_text_ess.png"
-  ans: |
-        dat <- haven::read_dta("./datasetit/ESS8e01.stata/ESS8e01.dta")
-        kuvadata <- dat %>% group_by(cntry) %>%
-          mutate(health = ifelse(health %in% c(7,8,9), NA, health),
-                 ppltrst = ifelse(ppltrst %in% c(77,88,99), NA, ppltrst)) %>%
-          summarise(health = mean(health, na.rm = TRUE),
-                    ppltrst = mean(ppltrst, na.rm = TRUE))
-        p <- ggplot(kuvadata, aes(x = ppltrst, y = health, label = cntry)) +
-          geom_point() + geom_text(nudge_y = .03) +
-          labs(title = "ESS kierros 8: luottamus ihmisiin ja koettu terveys",
-               subtitle = "Luottamus: mitä suurempi arvo sitä korkeampi luottamus
-        Terveys: mitä pienempi arvo sitä parempi terveys",
-               caption = "Data: European Social Survey")
 - id: ggplot2_theme_default
   domain: visualise
   grade: easy
@@ -180,5 +78,120 @@
   ans: |
         kuvaobjekti <- ggplot(dplyr::starwars, aes(x=height,y=mass)) + geom_point()
         ggsave(filename = "plotti.pdf", plot = kuvaobjekti, width = 11.7, height = 8.27)
+- id: ggplot2_geom_col_facet
+  domain: visualise
+  grade: medium
+  lang_en: ""
+  lang_fi: 'Tuo R:ään QOG-projektin basic-datan aikasarja komennolla `dat <- rqog::read_qog(which_data = "basic", year = 2019, data_type = "time-series")`. Valitse datasta Yhdysvallat, Kiina ja Venäjä. Piirrä funktiolla `geom_col()` tolppakuvio, jossa x-akselilla on vuosi ja y-akselilla YK:n ihnimillisen kehityksen indeksi ja eri maat paneleissa "facetoituina" (funktio `facet_wrap()`). Anna kuviolle otsikko "Inhimillisen kehityksen indeksi"'
+  ans: |
+        dat <- rqog::read_qog(which_data = "basic", year = 2019, data_type = "time-series")
+        kuvadata <- dat %>% filter(cname %in% c("Canada","United States","Russia"),
+                                   !is.na(undp_hdi))
+        ggplot(kuvadata, aes(x = year, y = undp_hdi)) + geom_col() + labs(title = "Inhimillisen kehityksen indeksi") + facet_wrap(~cname)
+- id: ggplot2_geom_line_qog
+  domain: visualise
+  grade: medium
+  lang_en: ""
+  lang_fi: 'Tuo R:ään QOG-projektin basic-datan aikasarja komennolla `dat <- rqog::read_qog(which_data = "basic", year = 2019, data_type = "time-series")`. Miten saat tehtyä tällaisen kuvan http://courses.markuskainu.fi/utur2019/kuvat/hdi.png'
+  ans: |
+        dat <- rqog::read_qog(which_data = "basic", year = 2019, data_type = "time-series")
+        kuvadata <- dat %>% filter(cname %in% c("Canada","United States","Russia"),
+                                   !is.na(undp_hdi))
+        p <- ggplot(kuvadata, aes(x = year, y = undp_hdi, color = cname)) +
+          geom_point() + geom_line() +
+          labs(title = "Inhimillisen kehityksen indeksi")
+        p
+- id: ggplot2_geom_line_bkt
+  domain: visualise
+  grade: medium
+  lang_en: ""
+  lang_fi: 'Tuo R:ään QOG-projektin basic-datan aikasarja komennolla `dat <- rqog::read_qog(which_data = "basic", year = 2019, data_type = "time-series")`. Miten saat tehtyä tällaisen kuvan http://courses.markuskainu.fi/utur2019/kuvat/ggplot2_geom_line_bkt.png'
+  ans: |
+        dat <- rqog::read_qog(which_data = "basic", year = 2019, data_type = "time-series")
+        p <- ggplot(dat, aes(x = year, y = gle_cgdpc, group = cname)) +
+          geom_point() + geom_line() +
+          labs(title = "bruttokansantuote kansalaista kohden")
+        p
+- id: ggplot2_geom_histogram_qog
+  domain: visualise
+  grade: medium
+  lang_en: ""
+  lang_fi: 'Tuo R:ään QOG-projektin basic-datan aikasarja komennolla `dat <- rqog::read_qog(which_data = "basic", year = 2019, data_type = "time-series")`. Miten saat tehtyä tällaisen kuvan http://courses.markuskainu.fi/utur2019/kuvat/ggplot2_geom_histogram_qog.png'
+  ans: |
+        dat <- rqog::read_qog(which_data = "basic", year = 2019, data_type = "time-series")
+        kuvadata <- dat %>% filter(year == 2011) %>% select(cname,gle_cgdpc)
+        p <- ggplot(kuvadata, aes(x = gle_cgdpc)) + geom_histogram() +
+          labs(title = "Bruttokansantuote kansalaista kohden vuonna 2011 eri maissa")
+        p
+- id: ggplot2_geom_bar_ess
+  domain: visualise
+  grade: medium
+  lang_en: ""
+  lang_fi: "Lue ess-data R:ään. Piirrä siitä tolppakuvio tapausten määrästä per maa joka näyttä tältä: http://courses.markuskainu.fi/utur2019/kuvat/ggplot2_geom_bar_ess.png"
+  ans: |
+        ess <- readRDS(url("http://courses.markuskainu.fi/utur2018/datasetit/rds/ESS8e01.RDS"))
+        p <- ggplot(dat, aes(x = cntry)) +
+          geom_bar() +
+          labs(title = "Otoskoko ESS-aineiston rundilla 8")
+        p
+- id: ggplot2_geom_col_geom_text_ess
+  domain: visualise
+  grade: medium
+  lang_en: ""
+  lang_fi: "Lue ess-data R:ään. Piirrä siitä tolppakuvio otoksen iän maittaisista keskiarvoista joka näyttä tältä: http://courses.markuskainu.fi/utur2019/kuvat/ggplot2_geom_col_geom_text_ess.png"
+  ans: |
+        dat <- readRDS(url("http://courses.markuskainu.fi/utur2018/datasetit/rds/ESS8e01.RDS"))
+        kuvadata <- dat %>% group_by(cntry) %>% summarise(agea = round(mean(agea, na.rm = TRUE),1))
+        p <- ggplot(kuvadata, aes(x = cntry, y = agea, label = agea)) + geom_col() + geom_text() +
+          labs(title = "ESS kierros 8: eri maiden otosten iän keskiarvo")
+        p
+- id: ggplot2_geom_scatter_geom_text_ess
+  domain: visualise
+  grade: medium
+  lang_en: ""
+  lang_fi: "Lue ess-data R:ään. Piirrä siitä tolppakuvio tapausten määrästä joka näyttä tältä: http://courses.markuskainu.fi/utur2019/kuvat/ggplot2_geom_scatter_geom_text_ess.png"
+  ans: |
+        dat <- readRDS(url("http://courses.markuskainu.fi/utur2018/datasetit/rds/ESS8e01.RDS"))
+        kuvadata <- dat %>% group_by(cntry) %>%
+          mutate(health = ifelse(health %in% c(7,8,9), NA, health),
+                 ppltrst = ifelse(ppltrst %in% c(77,88,99), NA, ppltrst)) %>%
+          summarise(health = mean(health, na.rm = TRUE),
+                    ppltrst = mean(ppltrst, na.rm = TRUE))
+        p <- ggplot(kuvadata, aes(x = ppltrst, y = health, label = cntry)) +
+          geom_point() + geom_text(nudge_y = .03) +
+          labs(title = "ESS kierros 8: luottamus ihmisiin ja koettu terveys",
+               subtitle = "Luottamus: mitä suurempi arvo sitä korkeampi luottamus
+        Terveys: mitä pienempi arvo sitä parempi terveys",
+               caption = "Data: European Social Survey")
+- id: ggplot2_facet1
+  domain: visualise
+  grade: medium
+  lang_en: ""
+  lang_fi: 'Tuo R:ään QOG-projektin OECD-datan aikasarja komennolla `dat <- rqog::read_qog(which_data = "oecd", data_type = "time-series", year = 2019)`. Piirrä joka näyttää tältä http://courses.markuskainu.fi/utur2019/kuvat/ggplot2_facet1.png'
+  ans: |
+        dat <- rqog::read_qog(which_data = "oecd", year = 2019, data_type = "time-series")
+        kuvadata <- dat %>% filter(cname %in% c("Sweden","Finland","Denmark","Norway"),
+                           !is.na(undp_hdi))
 
+        p <- ggplot(kuvadata, aes(x = year, y = undp_hdi, color = cname)) +
+            geom_point() +
+            geom_line() +
+            labs(title = "Inhimillisen kehityksen indeksi") +
+            facet_wrap(~cname) +
+            theme(legend.position = "none")
+        p
+- id: ggplot2_facet2
+  domain: visualise
+  grade: medium
+  lang_en: ""
+  lang_fi: 'Tuo R:ään QOG-projektin basic-datan poikkileikkausaineisto komennolla `dat <- rqog::read_qog(which_data = "basic", data_type = "cross-sectional", year = 2019)`. Piirrä kuvio joka näyttää tältä http://courses.markuskainu.fi/utur2019/kuvat/ggplot2_facet2.png'
+  ans: |
+        dat <- rqog::read_qog(which_data = "basic", data_type = "cross-sectional", year = 2019)
+
+        p <- ggplot(dat, aes(x = mad_gdppc,
+                                  y = fhp_score5,
+                             color = factor(dpi_system))) +
+          geom_point() +
+          facet_wrap(~dpi_system)
+        p
 
