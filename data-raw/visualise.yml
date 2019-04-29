@@ -129,7 +129,7 @@
   lang_en: ""
   lang_fi: "Lue ess-data R:ään. Piirrä siitä tolppakuvio tapausten määrästä per maa joka näyttä tältä: http://courses.markuskainu.fi/utur2019/kuvat/ggplot2_geom_bar_ess.png"
   ans: |
-        ess <- readRDS(url("http://courses.markuskainu.fi/utur2018/datasetit/rds/ESS8e01.RDS"))
+        dat <- readRDS(url("http://courses.markuskainu.fi/utur2018/datasetit/rds/ESS8e01.RDS"))
         p <- ggplot(dat, aes(x = cntry)) +
           geom_bar() +
           labs(title = "Otoskoko ESS-aineiston rundilla 8")

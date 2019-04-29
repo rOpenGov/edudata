@@ -1,7 +1,7 @@
 Package: edudata
 Type: Package
 Title: Data package containing yaml-files for edu packages exercises
-Version: 0.1.02
+Version: 0.1.03
 Authors@R: c(
     person("Kainu", "Markus", , "markus.kainu@kela.fi", role = c("aut", "cre")),
     person("ropengov", role = c("cph","fnd"))
@@ -15,4 +15,4 @@ Description: edu-packages provides a open framework for creating and
 License: CC-BY 4.0
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
