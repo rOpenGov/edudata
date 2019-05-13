@@ -180,8 +180,8 @@
   lang_en: ""
   lang_fi: 'Suomen kekkosenjälkeiset presidentit ovat olleet Ahtisaari, Halonen, Koivisto ja Niinistö. Tee sukunimistä faktori, jonka leveleissä ne asetetaan järjestykseen kausien mukaan. (ekaksi koivisto)'
   extra: |
-          [1] Ahtisaari Halonen   Koivisto  Niinistö
-          Levels: Koivisto Ahtisaari Halonen Niinistö
+          # [1] Ahtisaari Halonen   Koivisto  Niinistö
+          # Levels: Koivisto Ahtisaari Halonen Niinistö
   ans: |
         factor(c("Ahtisaari","Halonen","Koivisto","Niinistö"),
                 levels = c("Koivisto","Ahtisaari","Halonen","Niinistö"))
