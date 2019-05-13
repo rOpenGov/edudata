@@ -133,6 +133,147 @@
           arrange(desc(wdi_internet)) %>%
           slice(1:3) %>%
           ungroup()
+# reglar expressions
+- id: h19_k4_regexp1
+  domain: h19_k4
+  lang_en: ""
+  lang_fi: "Käsitellään dplyr-paketin Starwars dataa. Miten valitse hahmot, joiden nimessä on `-`-merkki"
+  ans: |
+        dplyr::starwars %>% filter(grepl('-', name))
+- id: h19_k4_regexp2
+  domain: h19_k4
+  lang_en: ""
+  lang_fi: "Käsitellään dplyr-paketin Starwars dataa. Valitse hahmot joiden kotimaailman nimi on kaksiosainen Ja laske hahmojen määrät kotimaailmoittain"
+  extra: |
+          #   homeworld          n
+          #   <chr>          <int>
+          # 1 Aleen Minor        1
+          # 2 Bestine IV         1
+          # 3 Cato Neimoidia     1
+          # 4 Concord Dawn       1
+          # 5 Glee Anselm        1
+          # 6 Haruun Kal         1
+          # 7 Mon Cala           1
+          # 8 Nal Hutta          1
+  ans: |
+        dplyr::starwars %>%
+            filter(grepl(" ", homeworld)) %>%
+            count(homeworld)
+- id: h19_k4_regexp3
+  domain: h19_k4
+  lang_en: ""
+  lang_fi: "Käsitellään dplyr-paketin Starwars dataa. Luo uusi muuttuja `eye_color_base`, jossa on `eye_color`-muuttujan arvon ensimmäinen väri (blue-gray -> blue)! Valitse lopuksi vain hahmot joilla on kaksiosaisen silmien väri ja muuttujat `name`, `eye_color`, `eye_color_base` "
+  extra: |
+          #   name           eye_color     eye_color_base
+          #   <chr>          <chr>         <chr>
+          # 1 Obi-Wan Kenobi blue-gray     blue
+          # 2 R4-P17         red, blue     red
+          # 3 Grievous       green, yellow green
+  ans: |
+        dplyr::starwars %>%
+              mutate(eye_color_base = gsub('-.+$|,.+$', "", eye_color)) %>%
+              filter(grepl("-|,", eye_color)) %>%
+              select(name,eye_color,eye_color_base)
+# faktori
+- id: h19_k4_factor_1
+  domain: h19_k4
+  lang_en: ""
+  lang_fi: 'Suomen kekkosenjälkeiset presidentit ovat olleet Ahtisaari, Halonen, Koivisto ja Niinistö. Tee sukunimistä faktori, jonka leveleissä ne asetetaan järjestykseen kausien mukaan. (ekaksi koivisto)'
+  extra: |
+          [1] Ahtisaari Halonen   Koivisto  Niinistö
+          Levels: Koivisto Ahtisaari Halonen Niinistö
+  ans: |
+        factor(c("Ahtisaari","Halonen","Koivisto","Niinistö"),
+                levels = c("Koivisto","Ahtisaari","Halonen","Niinistö"))
+- id: h19_k4_factor_2
+  domain: h19_k4
+  lang_en: ""
+  lang_fi: 'Lataa QOG-projektin Basic data (dat <- rqog::read_qog(which_data = "basic", data_type = "time-series", year = 2019) ). Miten saat seuraavanlaisen kuvan http://courses.markuskainu.fi/utur2019/kuvat/h19_k4_factor_2.png'
+  extra: ""
+  ans: |
+        library(dplyr)
+        library(ggplot2)
+        library(forcats)
+        dat <- rqog::read_qog(which_data = "basic", data_type = "time-series", year = 2019)
+        kuvadata <- dat %>%
+          select(cname,year,wdi_internet) %>%
+          filter(!is.na(wdi_internet),
+                 grepl("d$", cname),
+                 year %in% 2017) %>%
+          mutate(cname = fct_reorder(cname, wdi_internet))
+
+        ggplot(kuvadata, aes(x = cname, y = wdi_internet)) +
+          geom_col() +
+          labs(title = "Vuoden 2017 internetin käyttöasteet d:hen loppuvissa maissa")
+- id: h19_k4_factor_3
+  domain: h19_k4
+  lang_en: ""
+  lang_fi: '"Pura" starwars-datan films-muuttujan "sisäkkäisyys" (nested) seuraavalla koodilla: `dplyr::starwars %>% tidyr::unnest(films) %>% select(name,gender,films)` Miten saat ko. datasta  seuraavanlaisen kuvan http://courses.markuskainu.fi/utur2019/kuvat/h19_k4_factor_3.png'
+  extra: ""
+  ans: |
+        library(dplyr)
+        library(ggplot2)
+        library(forcats)
+        library(tidyr)
+
+        kuvadata <- dplyr::starwars %>%
+          unnest(films) %>%
+          select(name,gender,films) %>%
+          group_by(films) %>% count(gender) %>%
+          filter(gender == "female") %>%
+          ungroup() %>%
+          mutate(films = fct_reorder(films, n))
+
+        p <- ggplot(kuvadata, aes(x = films, y = n)) +
+          geom_col() +
+          labs(title = "Star Wars elokuvat niissä esiintyneiden naisten määrän mukaan", y = "naisten määrä") +
+          theme(axis.text.x = element_text(angle = 90))
+- id: h19_k4_factor_4
+  domain: h19_k4
+  lang_en: ""
+  lang_fi: '"Pura" starwars-datan films-muuttujan "sisäkkäisyys" (nested) seuraavalla koodilla: `dplyr::starwars %>% tidyr::unnest(films) %>% select(name,gender,films)` Miten saat ko. datasta  seuraavanlaisen kuvan http://courses.markuskainu.fi/utur2019/kuvat/h19_k4_factor_4.png'
+  extra: ""
+  ans: |
+        library(dplyr)
+        library(dplyr)
+        library(ggplot2)
+        library(forcats)
+        library(tidyr)
+
+        kuvadata <- dplyr::starwars %>%
+          unnest(films) %>%
+          select(name,gender,films) %>%
+          filter(!is.na(gender)) %>%
+          group_by(films) %>%
+          count(gender) %>%
+          mutate(osuus = round(n/sum(n)*100,1))
+
+
+        # suput esiintymisasteen (kaikissa elokuvissa) mukaan
+        suput <- kuvadata %>%
+          group_by(gender) %>%
+          summarise(osuus = sum(osuus)) %>%
+          arrange(desc(osuus)) %>%
+          pull(gender)
+
+        # elokuvat miesten esiintymisasteen mukaan
+        elokuvat <- kuvadata %>%
+          filter(gender == "male") %>%
+          arrange(desc(osuus)) %>%
+          pull(films)
+
+        # asetetaan faktorilevelit
+        kuvadata$gender <- factor(kuvadata$gender, levels = rev(suput))
+        kuvadata$films <- factor(kuvadata$films, levels = elokuvat)
+
+        ggplot(kuvadata, aes(x = films,
+                             y = osuus,
+                             fill = gender)) +
+          geom_col() +
+          labs(title = "Star Wars elokuvat ja hahmojen 'sukupuoliosuudet'",
+               subtitle = "Elokuvat järjestetty miesten suhteellisen osuuden mukaan",
+               y = "naisten määrä") +
+          theme(axis.text.x = element_text(angle = 90))
 # Join
 - id: h19_k4_join_nycflights13_1
   domain: h19_k4
